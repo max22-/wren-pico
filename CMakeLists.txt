@@ -35,7 +35,7 @@ include_directories(
 pico_set_program_name(wren-pico "wren-pico")
 pico_set_program_version(wren-pico "0.1")
 
-#pico_enable_stdio_uart(wren-pico 1)
+pico_enable_stdio_uart(wren-pico 1)
 pico_enable_stdio_usb(wren-pico 1)
 
 # Add the standard library to the build
