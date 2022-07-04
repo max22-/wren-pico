@@ -17,14 +17,25 @@ project(wren-pico C CXX ASM)
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
+file(GLOB WREN_SOURCES "wren/src/vm/*.c" "wren/src/optional/*.c")
+
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(wren-pico wren-pico.c )
+add_executable(wren-pico
+  wren-pico.c
+  ${WREN_SOURCES}
+  )
+
+include_directories(
+  wren/src/include
+  wren/src/vm
+  wren/src/optional
+  )
 
 pico_set_program_name(wren-pico "wren-pico")
 pico_set_program_version(wren-pico "0.1")
 
-pico_enable_stdio_uart(wren-pico 1)
+#pico_enable_stdio_uart(wren-pico 1)
 pico_enable_stdio_usb(wren-pico 1)
 
 # Add the standard library to the build
