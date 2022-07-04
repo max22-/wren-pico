@@ -6,6 +6,7 @@
 
 void wren_pico_welcome_message()
 {
+  printf("\n");
   printf("\\/\"-\n");
   printf("\\_/   wren v" WREN_VERSION_STRING "\n");
 }

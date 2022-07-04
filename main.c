@@ -5,12 +5,7 @@
 int main()
 {
   stdio_init_all();
-
-  for(int i = 10; i >= 0; i--) {
-    printf("%d\n", i);
-    sleep_ms(1000);
-  }
-  puts("Go!");
+  while(getchar_timeout_us(1000) != '\n'); /* Wait for 'return' to start */
   wren_pico_welcome_message();
   WrenConfiguration config;
   wrenInitConfiguration(&config);
@@ -19,9 +14,8 @@ int main()
   config.bindForeignMethodFn = &wren_pico_bindForeignMethod;
   
   WrenVM* vm = wrenNewVM(&config);
-  WrenInterpretResult result = wrenInterpret(vm, "main", "System.print(\"Hello, world! from Wren!\")");
 
-  result = wrenInterpret(vm, "main",
+  WrenInterpretResult result = wrenInterpret(vm, "main",
 		"class Gpio {\n"
 		"  foreign static init(pin)\n"
 		"  foreign static set_dir(pin,dir)\n"

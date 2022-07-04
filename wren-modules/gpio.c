@@ -5,9 +5,7 @@
 static void wren_gpio_init(WrenVM* vm)
 {
   const uint pin = wrenGetSlotDouble(vm, 1);
-  printf("gpio_init(%d)\n", pin);
   gpio_init(pin);
-  puts("done!");
 }
 
 static void wren_gpio_set_dir(WrenVM* vm)
