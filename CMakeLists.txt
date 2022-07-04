@@ -18,6 +18,7 @@ project(wren-pico C CXX ASM)
 pico_sdk_init()
 
 file(GLOB WREN_SOURCES "wren/src/vm/*.c" "wren/src/optional/*.c")
+file(GLOB WREN_MODULES "wren-modules/*.c")
 
 # Add executable. Default name is the project name, version 0.1
 
@@ -25,12 +26,14 @@ add_executable(wren-pico
   main.c
   wren-pico.c
   ${WREN_SOURCES}
+  ${WREN_MODULES}
   )
 
 include_directories(
   wren/src/include
   wren/src/vm
   wren/src/optional
+  wren-modules
   )
 
 pico_set_program_name(wren-pico "wren-pico")

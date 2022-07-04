@@ -1,4 +1,6 @@
 #include "wren.h"
+#include "wren-modules/modules.h"
+
 void wren_pico_welcome_message();
 void wren_pico_prompt();
 void wren_pico_writeFn(WrenVM* vm, const char *text);

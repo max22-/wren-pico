@@ -16,15 +16,26 @@ int main()
   wrenInitConfiguration(&config);
   config.writeFn = &wren_pico_writeFn;
   config.errorFn = &wren_pico_errorFn;
+  config.bindForeignMethodFn = &wren_pico_bindForeignMethod;
   
   WrenVM* vm = wrenNewVM(&config);
-  WrenInterpretResult result = wrenInterpret(vm, "repl", "System.print(\"Hello, world! from Wren!\")");
+  WrenInterpretResult result = wrenInterpret(vm, "main", "System.print(\"Hello, world! from Wren!\")");
+
+  result = wrenInterpret(vm, "main",
+		"class Gpio {\n"
+		"  foreign static init(pin)\n"
+		"  foreign static set_dir(pin,dir)\n"
+		"  foreign static put(pin,val)\n"
+		"}");
+  if(result != WREN_RESULT_SUCCESS)
+    puts("Error!");
+
   
   while(1) {
     char buffer[256];
     wren_pico_prompt();
     wren_pico_readline(buffer, sizeof(buffer));
-    wrenInterpret(vm, "repl", buffer);
+    wrenInterpret(vm, "main", buffer);
   }
   wrenFreeVM(vm);
   return 0;
