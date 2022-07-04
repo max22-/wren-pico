@@ -22,6 +22,7 @@ file(GLOB WREN_SOURCES "wren/src/vm/*.c" "wren/src/optional/*.c")
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(wren-pico
+  main.c
   wren-pico.c
   ${WREN_SOURCES}
   )

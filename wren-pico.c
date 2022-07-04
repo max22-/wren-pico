@@ -4,12 +4,23 @@
 
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
-void writeFn(WrenVM* vm, const char *text)
+void wren_pico_welcome_message()
+{
+  printf("\\/\"-\n");
+  printf("\\_/   wren v" WREN_VERSION_STRING "\n");
+}
+
+void wren_pico_prompt()
+{
+  printf("> ");
+}
+
+void wren_pico_writeFn(WrenVM* vm, const char *text)
 {
   printf("%s", text);
 }
 
-void errorFn(WrenVM* vm, WrenErrorType errorType,
+void wren_pico_errorFn(WrenVM* vm, WrenErrorType errorType,
              const char* module, const int line,
              const char* msg)
 {
@@ -30,13 +41,11 @@ void errorFn(WrenVM* vm, WrenErrorType errorType,
   }
 }
 
-void readline(char *buffer, size_t size)
+void wren_pico_readline(char *buffer, size_t size)
 {
   char c = 0;
   int n = 0;
   while(c != '\n') {
-    /*sleep_ms(1000);
-      printf("?");*/
     c = getchar_timeout_us(1000);
     if(c != PICO_ERROR_TIMEOUT && c != 0 && c != 255) {
       printf("%c", c);
@@ -53,36 +62,6 @@ void readline(char *buffer, size_t size)
   buffer[n] = 0;
 }
 
-void prompt()
-{
-  printf("> ");
-}
 
-int main()
-{
-  stdio_init_all();
 
-  for(int i = 10; i >= 0; i--) {
-    printf("%d\n", i);
-    sleep_ms(1000);
-  }
-  puts("Go!");
-  
-  WrenConfiguration config;
-  wrenInitConfiguration(&config);
-  config.writeFn = &writeFn;
-  config.errorFn = &errorFn;
-  
-  WrenVM* vm = wrenNewVM(&config);
-  WrenInterpretResult result = wrenInterpret(vm, "repl", "System.print(\"Hello, world! from Wren!\")");
-  
 
-  while(1) {
-    char buffer[256];
-    prompt();
-    readline(buffer, sizeof(buffer));
-    wrenInterpret(vm, "repl", buffer);
-  }
-  wrenFreeVM(vm);
-  return 0;
-}
